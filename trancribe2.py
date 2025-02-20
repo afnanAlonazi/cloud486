@@ -38,14 +38,14 @@ import psutil
 # Define models and audio files
 models = ["tiny", "small", "base", "medium"]
 audio_files = {
-    "2 sec": "AudioWAV/2sec.wav", 
-    "10 sec": "AudioWAV/10sec.wav", 
-    "20 sec": "AudioWAV/20sec.wav", 
-    "30 sec": "AudioWAV/30sec.wav", 
-    "34 sec": "AudioWAV/34sec.wav", 
-    "45 sec": "AudioWAV/45sec.wav", 
-    "1 min": "AudioWAV/60sec.wav",
-    "2min ": "AudioWAV/LDC2004S13.wav"
+    "2 sec": "AudioWAV/2sec.wav", # source: https://github.com/jim-schwoebel/voice_datasets
+    "10 sec": "AudioWAV/10sec.wav", # source: https://vt.tiktok.com/ZSMrQPrgf/
+    "20 sec": "AudioWAV/20sec.wav", # source: https://vt.tiktok.com/ZSMrQGXTS/
+    "30 sec": "AudioWAV/30sec.wav", # source: https://vt.tiktok.com/ZSMrQTuMR/
+    "34 sec": "AudioWAV/34sec.wav", # source: https://vt.tiktok.com/ZSMrQ3dqQ/
+    "45 sec": "AudioWAV/45sec.wav", # source: https://vt.tiktok.com/ZSMrC8Avb/
+    "1 min": "AudioWAV/60sec.wav",  # source:  https://vt.tiktok.com/ZSMrQKK51/
+    "2min ": "AudioWAV/LDC2004S13.wav" # source: https://catalog.ldc.upenn.edu/LDC2004S13
     
 }
 
