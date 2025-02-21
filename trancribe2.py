@@ -1,36 +1,4 @@
-# import psutil
-# import time
-# import whisper
 
-# # Load model
-# model = whisper.load_model("tiny")
-
-# # Load audio file
-# audio_path = "AudioWAV/1091_ITS_ANG_XX.wav"
-
-# # Track CPU & RAM usage
-# cpu_usage_before = psutil.cpu_percent()
-# memory_before = psutil.virtual_memory().percent
-
-# start_time = time.time()
-# print("Transcribing audio using Whisper...")
-# result = model.transcribe(audio_path)
-# end_time = time.time()
-
-# cpu_usage_after = psutil.cpu_percent()
-# memory_after = psutil.virtual_memory().percent
-
-# # Print results
-# transcription = result["text"]
-# print("Transcription:", transcription)
-# print(f"🕒 Inference Time: {end_time - start_time:.2f} seconds")
-# print(f"🔥 CPU Usage Before: {cpu_usage_before}% After: {cpu_usage_after}%")
-# print(f"💾 Memory Usage Before: {memory_before}% After: {memory_after}%")
-
-# # Save transcription
-# with open("transcription.txt", "w") as file:
-#     file.write(transcription)
-# print("✅ Transcription has been saved to 'transcription.txt'.")
 import whisper
 import time
 import psutil
@@ -50,7 +18,7 @@ audio_files = {
 }
 
 # Open file for writing transcriptions and benchmark results
-with open("transcription.txt", "w", encoding="utf-8") as file:
+with open("results.txt", "w", encoding="utf-8") as file:
     # Run benchmarking
     for model_name in models:
         print(f"\n🔹 Benchmarking Whisper Model: {model_name.upper()}")
@@ -63,33 +31,48 @@ with open("transcription.txt", "w", encoding="utf-8") as file:
             print(f"\n🎙️ Testing with Audio Length: {length}")
             file.write(f"\n🎙️ Audio Length: {length}\n")
 
-            # Measure CPU & RAM before transcription
+            # Measure CPU & RAM before processing
             cpu_before = psutil.cpu_percent()
             ram_before = psutil.virtual_memory().used / (1024 * 1024)  # Convert bytes to MB
 
-            # Start timing
-            start_time = time.time()
-            result = model.transcribe(audio_path)
-            end_time = time.time()
+            # Start timing for response time
+            response_start = time.time()
 
-            # Measure CPU & RAM after transcription
+            # Load audio file (preprocessing time)
+            audio = whisper.load_audio(audio_path)
+
+            # Start timing for inference time
+            inference_start = time.time()
+            result = model.transcribe(audio_path)
+            inference_end = time.time()
+
+            # End timing for response time
+            response_end = time.time()
+
+            # Measure CPU & RAM after processing
             cpu_after = psutil.cpu_percent()
             ram_after = psutil.virtual_memory().used / (1024 * 1024)  # Convert bytes to MB
 
             # Get full transcription
             transcription = result["text"]
 
+            # Calculate times
+            inference_time = round(inference_end - inference_start, 2)
+            response_time = round(response_end - response_start, 2)
+
             # Print results
-            print(f"🕒 Inference Time: {round(end_time - start_time, 2)} seconds")
+            print(f"🕒 Inference Time: {inference_time} seconds")
+            print(f"⚡ Response Time: {response_time} seconds")
             print(f"🔥 CPU Usage Before: {cpu_before}%, After: {cpu_after}%")
             print(f"💾 Memory Usage Before: {round(ram_before, 2)} MB, After: {round(ram_after, 2)} MB")
-            print(f"📜 Transcription Snippet: {transcription[:100]}...")  # Show first 100 characters of transcription
+            print(f"📜 Transcription Snippet: {transcription[:100]}...")
 
             # Write results to file
-            file.write(f"🕒 Inference Time: {round(end_time - start_time, 2)} seconds\n")
+            file.write(f"🕒 Inference Time: {inference_time} seconds\n")
+            file.write(f"⚡ Response Time: {response_time} seconds\n")
             file.write(f"🔥 CPU Usage Before: {cpu_before}%, After: {cpu_after}%\n")
             file.write(f"💾 Memory Usage Before: {round(ram_before, 2)} MB, After: {round(ram_after, 2)} MB\n")
             file.write(f"📜 Full Transcription:\n{transcription}\n")
             file.write("=" * 50 + "\n")  # Separator
 
-print("\n✅ Benchmarking Complete! All results saved in 'transcription.txt'.")
+print("\n✅ Benchmarking Complete! All results saved in 'results.txt'.")
