@@ -18,7 +18,7 @@ audio_files = {
 }
 
 # Open file for writing transcriptions and benchmark results
-with open("results.txt", "w", encoding="utf-8") as file:
+with open("transcription.txt", "w", encoding="utf-8") as file:
     # Run benchmarking
     for model_name in models:
         print(f"\n🔹 Benchmarking Whisper Model: {model_name.upper()}")
