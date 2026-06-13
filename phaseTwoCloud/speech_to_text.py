@@ -5,8 +5,8 @@ import librosa  # For audio file processing
 import requests  # For network latency measurement
 
 # Azure Speech API key and region
-subscription_key = "Ca0879Tngsx97WcFb2hijYztIgBiRUXCFYD4gW9a6ME4n078WXWKJQQJ99BCACF24PCXJ3w3AAAYACOGcsYZ"
-region = "uaenorth"
+subscription_key = "key"
+region = "Rgion"
 
 # Get audio file length in seconds using librosa
 def get_audio_length(audio_file):
